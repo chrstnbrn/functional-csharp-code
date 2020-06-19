@@ -1,5 +1,7 @@
 ﻿using LaYumba.Functional;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using static LaYumba.Functional.F;
 
 namespace Exercises.Chapter7
@@ -100,5 +102,15 @@ namespace Exercises.Chapter7
         static void Debug(this Log log, string message) => log(Level.Debug, message);
         static void Info(this Log log, string message) => log(Level.Info, message);
         static void Error(this Log log, string message) => log(Level.Error, message);
+
+        // 5. Implement Map, Where and Bind for IEnumerable in terms of Aggregate
+        static IEnumerable<R> Map<T, R>(this IEnumerable<T> ts, Func<T, R> f)
+            => ts.Aggregate(Enumerable.Empty<R>(), (acc, t) => acc.Append(f(t)));
+
+        static IEnumerable<T> Where<T>(this IEnumerable<T> ts, Func<T, bool> predicate)
+            => ts.Aggregate(Enumerable.Empty<T>(), (acc, t) => predicate(t) ? acc.Append(t) : acc);
+
+        static IEnumerable<R> Bind<T, R>(this IEnumerable<T> ts, Func<T, IEnumerable<R>> f)
+            => ts.Aggregate(Enumerable.Empty<R>(), (acc, t) => acc.Concat(f(t)));
     }
 }
