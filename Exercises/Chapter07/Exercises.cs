@@ -97,7 +97,7 @@ namespace Exercises.Chapter7
 
         delegate void Log(Level level, string message);
 
-        static Log ConsoleLogger = (Level level, string message) => Console.WriteLine($"{level}: {message}}");
+        static Log ConsoleLogger = (Level level, string message) => Console.WriteLine($"{level}: {message}");
 
         static void Debug(this Log log, string message) => log(Level.Debug, message);
         static void Info(this Log log, string message) => log(Level.Info, message);
